@@ -32,12 +32,12 @@ public class Robot extends TimedRobot {
     Joystick tankStick_L = container.tankStickL;
     Joystick tankStick_R = container.tankStickR;
     Pixy2 pixyCamera = Pixy2.createInstance(new SPILink());
-    autoGrabBall ballDetector = new autoGrabBall(pixyCamera);
+    BallDetectorAuto ballDetector = new BallDetectorAuto(pixyCamera);
     PIDController turnController = new PIDController(0.1, 0, 0);
     DigitalInput ballSwitch = container.ballSwitch;
+    
     boolean isBallInside = false;
-
-    double ballx;
+    double ballPosition_X;
 
 
   @Override
@@ -62,13 +62,13 @@ public class Robot extends TimedRobot {
 
     driveTrain.arcadeDrive(0, 0.5);
     ballDetector.execute();
-    ballx = SmartDashboard.getNumber("Ball X", 0.0);
+    ballPosition_X = SmartDashboard.getNumber("Ball X", 0.0);
 
 
     if (!isBallInside){
 
-      if (ballx != 0.0){
-         driveTrain.arcadeDrive(0.5, turnController.calculate(ballx, 0.0));       
+      if (ballPosition_X != 0.0){
+         driveTrain.arcadeDrive(0.5, turnController.calculate(ballPosition_X, 0.0));       
       }
       else
       driveTrain.arcadeDrive(0.5, 0.0);;
