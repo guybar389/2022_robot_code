@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import io.github.pseudoresonance.pixy2api.Pixy2;
 import io.github.pseudoresonance.pixy2api.links.SPILink;
 
@@ -58,7 +58,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousPeriodic() {
-    /*
+    
     //driveTrain.driveCartesian(0, 0, 0.5);
     ballDetector.execute();
     ballx = SmartDashboard.getNumber("Ball X", 0.0);
@@ -66,13 +66,13 @@ public class Robot extends TimedRobot {
 
     if (!isBallInside){
       if (ballx != 0.0){
-         driveTrain.driveCartesian(0.5, 0, turnController.calculate(ballx, 0.0));       
+         driveTrain.arcadeDrive(0.5, turnController.calculate(ballx, 0.0));       
       }
       else
-      driveTrain.driveCartesian(0, 0, 0.5);
+      driveTrain.arcadeDrive(0.5, 0.0);;
     }
     else if(ballSwitch.get())
-      isBallInside = true;*/
+      isBallInside = true;
   }
 
   @Override
