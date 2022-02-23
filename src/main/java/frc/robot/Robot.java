@@ -4,12 +4,17 @@
 
 package frc.robot;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import io.github.pseudoresonance.pixy2api.Pixy2;
 import io.github.pseudoresonance.pixy2api.links.SPILink;
@@ -33,6 +38,7 @@ public class Robot extends TimedRobot {
     Pixy2 pixy = Pixy2.createInstance(new SPILink());
     autoGrabBall auto = new autoGrabBall(pixy);
     PIDController turnController = new PIDController(0.1, 0, 0);
+    NetworkTableEntry ballEntry;
     double ballx;
     DigitalInput ballSwitch = cont.ballSwitch;
     boolean ballInside = false;
@@ -63,9 +69,8 @@ public class Robot extends TimedRobot {
 
     //driveTrain.driveCartesian(0, 0, 0.5);
     auto.execute();
-    ballx = SmartDashboard.getNumber("Ball X", 0.0);
-
-
+    //ballEntry = Shuffleboard.getTab("autonomous ball place");               //SmartDashboard.getNumber("Ball X", 0.0);
+    ballx = SmartDashboard.getNumber("Ball X", 0.0); //ballEntry.getDouble(0);
     if (!ballInside){
       if (ballx != 0.0){
          driveTrain.driveCartesian(0.5, 0, turnController.calculate(ballx, 0.0));
@@ -95,8 +100,11 @@ public class Robot extends TimedRobot {
   public void disabledPeriodic() {}
 
   @Override
-  public void testInit() {}
+  public void testInit() {autonomousInit();}
 
   @Override
-  public void testPeriodic() {}
+  public void testPeriodic() {
+    
+    autonomousPeriodic();
+  }
 }
