@@ -20,9 +20,7 @@ public class autoGrabBall {
     private int alliance = 3;
     Pixy2 Camera;
     private static final int blockSignature = 1;
-	ShuffleboardTab ballTab = Shuffleboard.getTab("autonomous ball place");
-	//private NetworkTableEntry ballXentry, ballYentry, allianceEntry;
-	
+
 
     public autoGrabBall(Pixy2 pixy){
 
