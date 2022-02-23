@@ -9,6 +9,8 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
 /** Add your docs here. */
 public class RobotContainer {
@@ -20,7 +22,7 @@ public class RobotContainer {
     public MecanumDrive driveTrain = new MecanumDrive(LF, LR, RF, RR);
     public Joystick driveStick = new Joystick(0);
     public DigitalInput ballSwitch = new DigitalInput(0);
-
+    public ShuffleboardTab tab = Shuffleboard.getTab("autonomous ball place");
 
 
     public RobotContainer(){
