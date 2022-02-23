@@ -9,8 +9,8 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj.drive.MecanumDrive;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import io.github.pseudoresonance.pixy2api.Pixy2;
 import io.github.pseudoresonance.pixy2api.links.SPILink;
 
@@ -27,26 +27,24 @@ public class Robot extends TimedRobot {
    * initialization code.
    */
   
-    RobotContainer cont = new RobotContainer();
-    MecanumDrive driveTrain = cont.driveTrain;
-    Joystick driveStick = cont.driveStick;
-    Pixy2 pixy = Pixy2.createInstance(new SPILink());
-    autoGrabBall auto = new autoGrabBall(pixy);
+    RobotContainer container = new RobotContainer();
+    DifferentialDrive driveTrain = container.driveTrain;
+    Joystick tankStick_L = container.tankStickL;
+    Joystick tankStick_R = container.tankStickR;
+    Pixy2 pixyCamera = Pixy2.createInstance(new SPILink());
+    autoGrabBall ballDetector = new autoGrabBall(pixyCamera);
     PIDController turnController = new PIDController(0.1, 0, 0);
+    DigitalInput ballSwitch = container.ballSwitch;
+    boolean isBallInside = false;
     double ballx;
-    DigitalInput ballSwitch = cont.ballSwitch;
-    boolean ballInside = false;
-    
+
+
   @Override
   public void robotInit() {
-    if (DriverStation.getAlliance() == Alliance.Blue){
-      auto.setBlueAlliance();
-    }
-    else if (DriverStation.getAlliance() == Alliance.Red){
-      auto.setRedAlliance();
-    }
-
+    SetBallDetectorAlliance();
   }
+
+  
 
   @Override
   public void robotPeriodic() {
@@ -60,22 +58,21 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousPeriodic() {
-
+    /*
     //driveTrain.driveCartesian(0, 0, 0.5);
-    auto.execute();
+    ballDetector.execute();
     ballx = SmartDashboard.getNumber("Ball X", 0.0);
 
 
-    if (!ballInside){
+    if (!isBallInside){
       if (ballx != 0.0){
-         driveTrain.driveCartesian(0.5, 0, turnController.calculate(ballx, 0.0));
-      
+         driveTrain.driveCartesian(0.5, 0, turnController.calculate(ballx, 0.0));       
       }
       else
       driveTrain.driveCartesian(0, 0, 0.5);
     }
     else if(ballSwitch.get())
-      ballInside = true;
+      isBallInside = true;*/
   }
 
   @Override
@@ -84,7 +81,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
 
-    driveTrain.driveCartesian(driveStick.getY(), driveStick.getX(), driveStick.getZ());
+    driveTrain.tankDrive(tankStick_L.getY(),tankStick_R.getY());
 
   }
 
@@ -99,4 +96,14 @@ public class Robot extends TimedRobot {
 
   @Override
   public void testPeriodic() {}
+
+
+  public void SetBallDetectorAlliance(){
+		if (DriverStation.getAlliance() == Alliance.Blue){
+		  ballDetector.setBlueAlliance();
+		}
+		else if (DriverStation.getAlliance() == Alliance.Red){
+		  ballDetector.setRedAlliance();
+		}
+	}
 }

@@ -8,17 +8,23 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.drive.MecanumDrive;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+
 
 /** Add your docs here. */
 public class RobotContainer {
 
-    WPI_TalonSRX LF = new WPI_TalonSRX(1);
-    WPI_TalonSRX LR = new WPI_TalonSRX(2);
-    WPI_TalonSRX RF = new WPI_TalonSRX(3);
-    WPI_TalonSRX RR = new WPI_TalonSRX(4);
-    public MecanumDrive driveTrain = new MecanumDrive(LF, LR, RF, RR);
-    public Joystick driveStick = new Joystick(0);
+    WPI_TalonSRX FrontL = new WPI_TalonSRX(1);
+    WPI_TalonSRX RearL = new WPI_TalonSRX(2);
+    WPI_TalonSRX FrontR = new WPI_TalonSRX(3);
+    WPI_TalonSRX RearR = new WPI_TalonSRX(4);
+    MotorControllerGroup RightSide = new MotorControllerGroup(FrontL,RearL);
+    MotorControllerGroup LeftSide = new MotorControllerGroup(FrontR, RearR);
+
+    public DifferentialDrive driveTrain = new DifferentialDrive(LeftSide, RightSide);
+    public Joystick tankStickL = new Joystick(0);
+    public Joystick tankStickR = new Joystick(1);
     public DigitalInput ballSwitch = new DigitalInput(0);
 
 

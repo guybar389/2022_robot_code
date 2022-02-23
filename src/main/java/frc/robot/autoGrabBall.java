@@ -18,7 +18,7 @@ public class autoGrabBall {
     Pixy2 Camera;
     private static final int blockSignature = 1;
 
-
+	
 
 
     public autoGrabBall(Pixy2 pixy){
