@@ -10,6 +10,8 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
 /** Add your docs here. */
 public class RobotContainer {
@@ -25,7 +27,7 @@ public class RobotContainer {
     public Joystick tankStickL = new Joystick(0);
     public Joystick tankStickR = new Joystick(1);
     public DigitalInput ballSwitch = new DigitalInput(0);
-    
+    //public ShuffleboardTab tab = Shuffleboard.getTab("autonomous ball place");
 
 
     public RobotContainer(){
