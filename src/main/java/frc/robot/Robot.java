@@ -4,10 +4,13 @@
 
 package frc.robot;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -36,6 +39,7 @@ public class Robot extends TimedRobot {
     PIDController turnController = new PIDController(0.1, 0, 0);
     DigitalInput ballSwitch = container.ballSwitch;
     boolean isBallInside = false;
+
     double ballx;
 
 
@@ -58,13 +62,14 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousPeriodic() {
-    
+
     driveTrain.arcadeDrive(0, 0.5);
     ballDetector.execute();
     ballx = SmartDashboard.getNumber("Ball X", 0.0);
 
 
     if (!isBallInside){
+
       if (ballx != 0.0){
          driveTrain.arcadeDrive(0.5, turnController.calculate(ballx, 0.0));       
       }
@@ -92,9 +97,10 @@ public class Robot extends TimedRobot {
   public void disabledPeriodic() {}
 
   @Override
-  public void testInit() {}
+  public void testInit() {autonomousInit();}
 
   @Override
+
   public void testPeriodic() {}
 
 
@@ -106,4 +112,5 @@ public class Robot extends TimedRobot {
 		  ballDetector.setRedAlliance();
 		}
 	}
+
 }
