@@ -59,7 +59,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     
-    //driveTrain.driveCartesian(0, 0, 0.5);
+    driveTrain.arcadeDrive(0, 0.5);
     ballDetector.execute();
     ballx = SmartDashboard.getNumber("Ball X", 0.0);
 
