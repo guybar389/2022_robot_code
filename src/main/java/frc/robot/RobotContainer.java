@@ -25,7 +25,7 @@ public class RobotContainer {
     public Joystick tankStickL = new Joystick(0);
     public Joystick tankStickR = new Joystick(1);
     public DigitalInput ballSwitch = new DigitalInput(0);
-    public ShuffleboardTab tab = Shuffleboard.getTab("autonomous ball place");
+
 
 
     public RobotContainer(){
