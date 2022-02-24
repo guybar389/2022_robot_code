@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import io.github.pseudoresonance.pixy2api.Pixy2;
-import io.github.pseudoresonance.pixy2api.links.SPILink;
 
 
 /**
@@ -32,15 +31,15 @@ public class Robot extends TimedRobot {
     DifferentialDrive driveTrain = container.driveTrain;
     Joystick tankStick_L = container.tankStickL;
     Joystick tankStick_R = container.tankStickR;
-    Pixy2 pixyCamera = Pixy2.createInstance(new SPILink());
-    BallDetectorAuto ballDetector = new BallDetectorAuto(pixyCamera);
-    PIDController turnController = new PIDController(0.1, 0, 0);
+    Pixy2 pixyCamera = container.pixyCamera;
+    PIDController turnController = container.turnController;
     DigitalInput ballSwitch = container.ballSwitch;
     JoystickButton reverseDriveGear = container.reverseDriveGear;
-    
-    boolean isBallInside = false;
-    double ballPosition_X;
+    BallDetectorAuto ballDetector = new BallDetectorAuto(pixyCamera);
 
+    
+    double ballPosition_X;
+    boolean isBallInside = false;
 
   @Override
   public void robotInit() {
@@ -85,7 +84,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
 
-    driveTrain.tankDrive(tankSpeedL(),tankSpeedR());
+    driveTrain.tankDrive(SetTankSpeedL(),SetTankSpeedR());
 
   }
 
@@ -104,7 +103,7 @@ public class Robot extends TimedRobot {
 
 
 
-  public double tankSpeedL(){
+  public double SetTankSpeedL(){
     boolean isReversed = reverseDriveGear.getAsBoolean();
     if(isReversed){
       return -tankStick_L.getY();
@@ -112,7 +111,7 @@ public class Robot extends TimedRobot {
     return tankStick_L.getY();
   }
 
-  public double tankSpeedR(){
+  public double SetTankSpeedR(){
     boolean isReversed = reverseDriveGear.getAsBoolean();
     if(isReversed){
       return -tankStick_R.getY();
