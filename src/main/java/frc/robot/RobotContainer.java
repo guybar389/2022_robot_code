@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /** Add your docs here. */
 public class RobotContainer {
@@ -18,12 +19,15 @@ public class RobotContainer {
     WPI_TalonSRX RearL = new WPI_TalonSRX(2);
     WPI_TalonSRX FrontR = new WPI_TalonSRX(3);
     WPI_TalonSRX RearR = new WPI_TalonSRX(4);
+
     MotorControllerGroup RightSide = new MotorControllerGroup(FrontL,RearL);
     MotorControllerGroup LeftSide = new MotorControllerGroup(FrontR, RearR);
-    public DifferentialDrive driveTrain = new DifferentialDrive(LeftSide, RightSide);
     
+    
+    public DifferentialDrive driveTrain = new DifferentialDrive(LeftSide, RightSide);
     public Joystick tankStickL = new Joystick(0);
     public Joystick tankStickR = new Joystick(1);
+    public JoystickButton reverseDriveGear = new JoystickButton(tankStickL, 0);
     public DigitalInput ballSwitch = new DigitalInput(0);
 
 
