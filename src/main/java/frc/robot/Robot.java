@@ -3,6 +3,8 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
+import java.sql.DriverAction;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -11,7 +13,6 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import io.github.pseudoresonance.pixy2api.Pixy2;
 
 
@@ -28,18 +29,17 @@ public class Robot extends TimedRobot {
    */
   
     RobotContainer container = new RobotContainer();
-    DifferentialDrive driveTrain = container.driveTrain;
     Joystick tankStick_L = container.driverStickL;
     Joystick tankStick_R = container.driverStickR;
-    JoystickButton reverseDriveGear = container.reverseDriveGear;
     Pixy2 pixyCamera = container.pixyCamera;
+    DifferentialDrive driveTrain = container.driveTrain;
     PIDController turnController = container.turnController;
     DigitalInput ballSwitch = container.ballSwitch;
     BallDetectorAuto ballDetector = new BallDetectorAuto(pixyCamera);
     CannonSystem cannonTower = new CannonSystem();
     ClimbingSystem robotClimber = new ClimbingSystem();
     IntakeSystem ballIntake = new IntakeSystem();
-
+    DriveSystem tankDrive = new DriveSystem(tankStick_L,tankStick_R);
     
     double ballPosition_X;
     boolean isBallInside = false;
@@ -86,9 +86,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    driveTrain.tankDrive(SetTankSpeed(tankStick_L),SetTankSpeed(tankStick_R));
-
-
+    tankDrive.PilotDrive();
   }
 
   @Override
@@ -106,13 +104,6 @@ public class Robot extends TimedRobot {
 
 
 
-  public double SetTankSpeed(Joystick targetStick){
-    boolean isReversed = reverseDriveGear.getAsBoolean();
-    if(isReversed){
-      return -targetStick.getY();
-    }
-    return targetStick.getY();
-  }
 
   public void SetBallDetectorAlliance(){
 		if (DriverStation.getAlliance() == Alliance.Blue){
