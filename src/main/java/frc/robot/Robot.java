@@ -36,9 +36,9 @@ public class Robot extends TimedRobot {
     DigitalInput ballSwitch = container.ballSwitch;
     
     BallDetectorAuto ballDetector = new BallDetectorAuto(pixyCamera);
-    CannonSystem cannonTower = new CannonSystem();
-    ClimbingSystem robotClimber = new ClimbingSystem();
-    IntakeSystem ballIntake = new IntakeSystem();
+    CannonSystem cannonTower = new CannonSystem(container);
+    ClimbingSystem robotClimber = new ClimbingSystem(container);
+    IntakeSystem ballIntake = new IntakeSystem(container);
     DriveSystem tankDrive = new DriveSystem(tankStick_L,tankStick_R);
     
     double ballPosition_X;
