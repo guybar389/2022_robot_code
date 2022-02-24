@@ -3,7 +3,6 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
-import java.sql.DriverAction;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -35,6 +34,7 @@ public class Robot extends TimedRobot {
     DifferentialDrive driveTrain = container.driveTrain;
     PIDController turnController = container.turnController;
     DigitalInput ballSwitch = container.ballSwitch;
+    
     BallDetectorAuto ballDetector = new BallDetectorAuto(pixyCamera);
     CannonSystem cannonTower = new CannonSystem();
     ClimbingSystem robotClimber = new ClimbingSystem();
@@ -63,6 +63,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousPeriodic() {
+
+    tankDrive.AutonomusDrive(); 
 
     driveTrain.arcadeDrive(0, 0.5);
     ballDetector.execute();
