@@ -19,6 +19,14 @@ import io.github.pseudoresonance.pixy2api.links.SPILink;
 /** Add your docs here. */
 public class RobotContainer {
 
+    /////////////////// USER INPUT ////////////////////////////////
+    
+    Joystick driverStickL = new Joystick(0);
+    Joystick driverStickR = new Joystick(1);
+    JoystickButton reverseDriveGear = new JoystickButton(driverStickL, 0);
+    Joystick gunnerStick = new Joystick(2);
+    JoystickButton CannonFire = new JoystickButton(gunnerStick, 0);
+
     //////////////////// TANK DRIVE ///////////////////////////////
 
     WPI_TalonSRX FrontL = new WPI_TalonSRX(1);
@@ -27,10 +35,7 @@ public class RobotContainer {
     WPI_TalonSRX RearR = new WPI_TalonSRX(4);
     MotorControllerGroup RightSide = new MotorControllerGroup(FrontL,RearL);
     MotorControllerGroup LeftSide = new MotorControllerGroup(FrontR, RearR);
-    public DifferentialDrive driveTrain = new DifferentialDrive(LeftSide, RightSide);
-    public Joystick tankStickL = new Joystick(0);
-    public Joystick tankStickR = new Joystick(1);
-    public JoystickButton reverseDriveGear = new JoystickButton(tankStickL, 0);
+    DifferentialDrive driveTrain = new DifferentialDrive(LeftSide, RightSide);
 
     //////////////////// INTAKE System ///////////////////////////////
 
@@ -48,8 +53,7 @@ public class RobotContainer {
 
     WPI_TalonSRX cannonShooter = new WPI_TalonSRX(11);
     WPI_TalonSRX towerRotator = new WPI_TalonSRX(12);
-
-
+    
 
     //////////////////// SENSORS INIT ///////////////////////////////
 

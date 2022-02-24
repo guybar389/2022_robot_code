@@ -29,13 +29,16 @@ public class Robot extends TimedRobot {
   
     RobotContainer container = new RobotContainer();
     DifferentialDrive driveTrain = container.driveTrain;
-    Joystick tankStick_L = container.tankStickL;
-    Joystick tankStick_R = container.tankStickR;
+    Joystick tankStick_L = container.driverStickL;
+    Joystick tankStick_R = container.driverStickR;
+    JoystickButton reverseDriveGear = container.reverseDriveGear;
     Pixy2 pixyCamera = container.pixyCamera;
     PIDController turnController = container.turnController;
     DigitalInput ballSwitch = container.ballSwitch;
-    JoystickButton reverseDriveGear = container.reverseDriveGear;
     BallDetectorAuto ballDetector = new BallDetectorAuto(pixyCamera);
+    CannonSystem cannonTower = new CannonSystem();
+    ClimbingSystem robotClimber = new ClimbingSystem();
+    IntakeSystem ballIntake = new IntakeSystem();
 
     
     double ballPosition_X;
@@ -83,8 +86,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
+    driveTrain.tankDrive(SetTankSpeed(tankStick_L),SetTankSpeed(tankStick_R));
 
-    driveTrain.tankDrive(SetTankSpeedL(),SetTankSpeedR());
 
   }
 
@@ -103,20 +106,12 @@ public class Robot extends TimedRobot {
 
 
 
-  public double SetTankSpeedL(){
+  public double SetTankSpeed(Joystick targetStick){
     boolean isReversed = reverseDriveGear.getAsBoolean();
     if(isReversed){
-      return -tankStick_L.getY();
+      return -targetStick.getY();
     }
-    return tankStick_L.getY();
-  }
-
-  public double SetTankSpeedR(){
-    boolean isReversed = reverseDriveGear.getAsBoolean();
-    if(isReversed){
-      return -tankStick_R.getY();
-    }
-    return tankStick_R.getY();
+    return targetStick.getY();
   }
 
   public void SetBallDetectorAlliance(){
