@@ -22,8 +22,7 @@ public class RobotContainer {
 
     MotorControllerGroup RightSide = new MotorControllerGroup(FrontL,RearL);
     MotorControllerGroup LeftSide = new MotorControllerGroup(FrontR, RearR);
-    
-    
+
     public DifferentialDrive driveTrain = new DifferentialDrive(LeftSide, RightSide);
     public Joystick tankStickL = new Joystick(0);
     public Joystick tankStickR = new Joystick(1);
@@ -33,7 +32,7 @@ public class RobotContainer {
 
 
     public RobotContainer(){
-
+        RightSide.setInverted(true);
     }
 
     
