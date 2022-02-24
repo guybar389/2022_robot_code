@@ -8,7 +8,9 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PneumaticsControlModule;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -26,33 +28,52 @@ public class RobotContainer {
     JoystickButton reverseDriveGear = new JoystickButton(driverStickL, 0);
     Joystick gunnerStick = new Joystick(2);
     JoystickButton CannonFire = new JoystickButton(gunnerStick, 0);
+    JoystickButton IntakeSet = new JoystickButton(gunnerStick, 1);
 
     //////////////////// TANK DRIVE ///////////////////////////////
 
-    WPI_TalonSRX FrontL = new WPI_TalonSRX(1);
+    WPI_TalonSRX FrontL = new WPI_TalonSRX(1);  //make sure port 1&2 are for left side
     WPI_TalonSRX RearL = new WPI_TalonSRX(2);
-    WPI_TalonSRX FrontR = new WPI_TalonSRX(3);
+    WPI_TalonSRX FrontR = new WPI_TalonSRX(3);  //make sure port 3&4 are for right side
     WPI_TalonSRX RearR = new WPI_TalonSRX(4);
     MotorControllerGroup RightSide = new MotorControllerGroup(FrontL,RearL);
     MotorControllerGroup LeftSide = new MotorControllerGroup(FrontR, RearR);
     DifferentialDrive driveTrain = new DifferentialDrive(LeftSide, RightSide);
 
+    //////////////////// PNEUMATICS System ///////////////////////////////
+
+    PneumaticsControlModule pcm = new PneumaticsControlModule();
+    
     //////////////////// INTAKE System ///////////////////////////////
 
     WPI_TalonSRX intakeA = new WPI_TalonSRX(5);
-    WPI_TalonSRX intakeB = new WPI_TalonSRX(6);
+    DoubleSolenoid LeftIntakeSolenoid = pcm.makeDoubleSolenoid(0, 1);
+    DoubleSolenoid RightIntakeSolenoid = pcm.makeDoubleSolenoid(2, 3);
+
+    
+
+
+    //////////////////// BALLGRIP System ///////////////////////////////
+
+    WPI_TalonSRX Gripper = new WPI_TalonSRX(6);
+
 
     //////////////////// CLIMB System ///////////////////////////////
 
-    WPI_TalonSRX climbA = new WPI_TalonSRX(7);
-    WPI_TalonSRX climbB = new WPI_TalonSRX(8);
-    WPI_TalonSRX climbTweakA = new WPI_TalonSRX(9);
-    WPI_TalonSRX climbTweakB = new WPI_TalonSRX(10);
+    WPI_TalonSRX LeftClimb = new WPI_TalonSRX(7);   
+    WPI_TalonSRX RightClimb = new WPI_TalonSRX(8);
+
+    DoubleSolenoid LeftClimbSolenoid = pcm.makeDoubleSolenoid(4, 5);
+    DoubleSolenoid RightClimbSolenoid = pcm.makeDoubleSolenoid(6, 7);
 
     //////////////////// CANNON System ///////////////////////////////
 
-    WPI_TalonSRX cannonShooter = new WPI_TalonSRX(11);
-    WPI_TalonSRX towerRotator = new WPI_TalonSRX(12);
+    //no need to declare these three shooter motors seperately 
+    //*CONTAINS BOTH DECIMATE GEARBOX AND 775 MOTOR, PAY ATTENTION IF IT NEEDED TO BE INVERTED*
+    MotorControllerGroup CannonShooter = new MotorControllerGroup
+    (new WPI_TalonSRX(9), new WPI_TalonSRX(10), new WPI_TalonSRX(11)); 
+
+    WPI_TalonSRX CannonSiding = new WPI_TalonSRX(11);
     
 
     //////////////////// SENSORS INIT ///////////////////////////////
@@ -64,6 +85,7 @@ public class RobotContainer {
 
     public RobotContainer(){
         RightSide.setInverted(true);
+        
     }
 
     
