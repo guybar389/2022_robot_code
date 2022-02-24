@@ -6,11 +6,15 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 public class DriveSystem {
 
-    RobotContainer container = new RobotContainer();
+    RobotContainer container;
     DifferentialDrive driveTrain = container.driveTrain;
     JoystickButton reverseDriveGear = container.reverseDriveGear;
     Joystick tankStick_L;
     Joystick tankStick_R;
+
+    DriveSystem(RobotContainer Container){
+      this.container = Container;
+    }
 
     public DriveSystem(Joystick tankStick_L, Joystick tankStick_R) {
         this.tankStick_L = tankStick_L;
