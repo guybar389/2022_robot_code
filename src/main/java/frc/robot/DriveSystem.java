@@ -8,7 +8,7 @@ public class DriveSystem {
 
     RobotContainer container;
     DifferentialDrive driveTrain = container.driveTrain;
-    JoystickButton reverseDriveGear = container.reverseDriveGear;
+    JoystickButton reverseDrive_Butt = container.reverseDrive_Butt;
     Joystick tankStick_L = container.driverStickL;
     Joystick tankStick_R = container.driverStickR;
 
@@ -26,7 +26,7 @@ public class DriveSystem {
 
 
     private double SetTankSpeed(Joystick targetStick){
-        boolean isReversed = reverseDriveGear.getAsBoolean();
+        boolean isReversed = reverseDrive_Butt.getAsBoolean();
         if(isReversed){
           return -targetStick.getY();
         }

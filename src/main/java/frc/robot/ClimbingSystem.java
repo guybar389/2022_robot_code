@@ -17,16 +17,16 @@ public class ClimbingSystem {
 
       //activate cylinders through those commands
     void TwistLeftClimber(){
-      container.LeftClimbSolenoid.set(Value.kForward);
+      container.climbSolenoid_Left.set(Value.kForward);
     }
     void StraightenLeftClimber(){
-      container.LeftClimbSolenoid.set(Value.kReverse);
+      container.climbSolenoid_Left.set(Value.kReverse);
     }
     
     void TwistRightClimber(){
-      container.RightClimbSolenoid.set(Value.kForward);
+      container.climbSolenoid_Right.set(Value.kForward);
     }
     void StraightenRightClimber(){
-      container.RightClimbSolenoid.set(Value.kReverse);
+      container.climbSolenoid_Right.set(Value.kReverse);
     }
 }
