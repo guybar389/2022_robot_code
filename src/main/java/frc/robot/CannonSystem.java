@@ -8,6 +8,9 @@ public class CannonSystem {
     CannonSystem(RobotContainer Container){
         this.container = Container;
       }
-
+    
+    public void OperateCannon(){
+      
+    }
 
 }

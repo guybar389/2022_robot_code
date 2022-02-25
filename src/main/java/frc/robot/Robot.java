@@ -7,7 +7,6 @@ package frc.robot;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -28,18 +27,17 @@ public class Robot extends TimedRobot {
    */
   
     RobotContainer container = new RobotContainer();
-    Joystick tankStick_L = container.driverStickL;
-    Joystick tankStick_R = container.driverStickR;
     Pixy2 pixyCamera = container.pixyCamera;
     DifferentialDrive driveTrain = container.driveTrain;
     PIDController turnController = container.turnController;
     DigitalInput ballSwitch = container.ballSwitch;
     
     BallDetectorAuto ballDetector = new BallDetectorAuto(pixyCamera);
-    CannonSystem cannonTower = new CannonSystem(container);
+    DriveSystem tankDrive = new DriveSystem(container);
     ClimbingSystem robotClimber = new ClimbingSystem(container);
+    CannonSystem cannonTower = new CannonSystem(container);
     IntakeSystem ballIntake = new IntakeSystem(container);
-    DriveSystem tankDrive = new DriveSystem(tankStick_L,tankStick_R);
+    
     
     double ballPosition_X;
     boolean isBallInside = false;
@@ -88,7 +86,18 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
+
     tankDrive.PilotDrive();
+    
+    ballIntake.OperateIntake();
+
+    if (container.GetGunnerSwitchPosition()>0.5) // Slider at the bottom of the Joystick
+      cannonTower.OperateCannon();               // Controlls whenever the second pilot controlls the
+    else                                         // Shooter tower or the climbing system.
+      robotClimber.OperateClimber();
+    
+    
+    
   }
 
   @Override

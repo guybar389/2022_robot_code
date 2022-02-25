@@ -9,16 +9,11 @@ public class DriveSystem {
     RobotContainer container;
     DifferentialDrive driveTrain = container.driveTrain;
     JoystickButton reverseDriveGear = container.reverseDriveGear;
-    Joystick tankStick_L;
-    Joystick tankStick_R;
+    Joystick tankStick_L = container.driverStickL;
+    Joystick tankStick_R = container.driverStickR;
 
-    DriveSystem(RobotContainer Container){
-      this.container = Container;
-    }
-
-    public DriveSystem(Joystick tankStick_L, Joystick tankStick_R) {
-        this.tankStick_L = tankStick_L;
-        this.tankStick_R = tankStick_R;
+    public DriveSystem(RobotContainer Container) {
+        this.container = Container;
     }
 
     public void PilotDrive() {
