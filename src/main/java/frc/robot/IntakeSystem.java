@@ -11,23 +11,21 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 public class IntakeSystem {
 
     private RobotContainer container;
-    private JoystickButton intakeActivate = container.activateIntake;
-    private JoystickButton intakeState = container.setIntakeState;
+    private JoystickButton intakeActivate_Butt = container.activateIntk_Butt;
+    private JoystickButton intakeState_Butt = container.intakeState_Butt;
     private TalonSRX intakeSRX = container.intakeA;
-
+    private boolean intakeFlipflop = false; // Private State Flipflop container variable
 
     IntakeSystem(RobotContainer container){
         this.container = container;
       }
 
-    public void OperateIntake(){
-      intakeState.whenPressed(SwitchIntakeState()); // NOT SURE IF WORKS MUST BE TESTED
-      intakeActivate.whileHeld(SpinIntake(intakeActivate.getAsBoolean()));
+    public void OperateIntake(){ // NOT SURE IF WORKS, EVENT SYSTEM MUST BE TESTED
+      intakeState_Butt.whenPressed(SwitchIntakeState()); 
+      intakeActivate_Butt.whileHeld(SpinIntake(intakeActivate_Butt.getAsBoolean()));
     }
 
-
-    private boolean intakeFlipflop = false; //true when intake is opened
-    private Command SwitchIntakeState(){
+    public Command SwitchIntakeState(){
       if(!intakeFlipflop){
         OpenIntake();
         intakeFlipflop = true;
@@ -38,7 +36,7 @@ public class IntakeSystem {
       return null;
     }
 
-    private Command SpinIntake(boolean isSpinning){    //true if we want to activate intake
+    public Command SpinIntake(boolean isSpinning){    // Set true to activate
       if(isSpinning){
         intakeSRX.set(TalonSRXControlMode.PercentOutput, 1.0);
         return null;
@@ -48,12 +46,12 @@ public class IntakeSystem {
     }
 
     private void CloseIntake(){                              
-      container.LeftIntakeSolenoid.set(Value.kForward);     
-      container.RightIntakeSolenoid.set(Value.kForward);
+      container.intakeSolenoid_Left.set(Value.kForward);     
+      container.intakeSolenoid_Right.set(Value.kForward);
       }
     private void OpenIntake(){
-      container.LeftIntakeSolenoid.set(Value.kReverse);
-      container.RightIntakeSolenoid.set(Value.kReverse);
+      container.intakeSolenoid_Left.set(Value.kReverse);
+      container.intakeSolenoid_Right.set(Value.kReverse);
       }
 
     
