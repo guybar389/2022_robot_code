@@ -26,7 +26,7 @@ public class IntakeSystem {
     }
 
 
-    private boolean intakeFlipflop = false;
+    private boolean intakeFlipflop = false; //true when intake is opened
     private Command SwitchIntakeState(){
       if(!intakeFlipflop){
         OpenIntake();
@@ -38,7 +38,7 @@ public class IntakeSystem {
       return null;
     }
 
-    private Command SpinIntake(boolean isSpinning){
+    private Command SpinIntake(boolean isSpinning){    //true if we want to activate intake
       if(isSpinning){
         intakeSRX.set(TalonSRXControlMode.PercentOutput, 1.0);
         return null;
