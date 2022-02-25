@@ -27,8 +27,8 @@ public class RobotContainer {
     Joystick driverStickR = new Joystick(1);
     JoystickButton reverseDriveGear = new JoystickButton(driverStickL, 0);
     Joystick gunnerStick = new Joystick(2);
-    JoystickButton CannonFire = new JoystickButton(gunnerStick, 0);
-    JoystickButton IntakeSet = new JoystickButton(gunnerStick, 1);
+    JoystickButton activateIntake = new JoystickButton(gunnerStick, 0);
+    JoystickButton setIntakeState = new JoystickButton(gunnerStick, 1);
 
     //////////////////// TANK DRIVE ///////////////////////////////
 
@@ -86,6 +86,10 @@ public class RobotContainer {
     public RobotContainer(){
         RightSide.setInverted(true);
         
+    }
+    
+    public double GetGunnerSwitchPosition(){
+        return gunnerStick.getThrottle();
     }
 
     
