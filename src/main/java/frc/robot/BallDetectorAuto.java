@@ -12,14 +12,14 @@ import io.github.pseudoresonance.pixy2api.Pixy2CCC;
 import io.github.pseudoresonance.pixy2api.Pixy2CCC.Block;
 
 /** Add your docs here. */
-public class autoGrabBall {
+public class BallDetectorAuto {
 
     private int alliance = 3;
     Pixy2 Camera;
     private static final int blockSignature = 1;
 
 
-    public autoGrabBall(Pixy2 pixy){
+    public BallDetectorAuto(Pixy2 pixy){
 
         Camera = pixy;
         Camera.init();

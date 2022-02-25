@@ -3,16 +3,15 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import io.github.pseudoresonance.pixy2api.Pixy2;
-import io.github.pseudoresonance.pixy2api.links.SPILink;
 
 
 /**
@@ -28,17 +27,20 @@ public class Robot extends TimedRobot {
    */
   
     RobotContainer container = new RobotContainer();
+    Pixy2 pixyCamera = container.pixyCamera;
     DifferentialDrive driveTrain = container.driveTrain;
-    Joystick tankStick_L = container.tankStickL;
-    Joystick tankStick_R = container.tankStickR;
-    Pixy2 pixyCamera = Pixy2.createInstance(new SPILink());
-    autoGrabBall ballDetector = new autoGrabBall(pixyCamera);
-    PIDController turnController = new PIDController(0.1, 0, 0);
+    PIDController turnController = container.turnController;
     DigitalInput ballSwitch = container.ballSwitch;
+    
+    BallDetectorAuto ballDetector = new BallDetectorAuto(pixyCamera);
+    DriveSystem tankDrive = new DriveSystem(container);
+    ClimbingSystem robotClimber = new ClimbingSystem(container);
+    CannonSystem cannonTower = new CannonSystem(container);
+    IntakeSystem ballIntake = new IntakeSystem(container);
+    
+    
+    double ballPosition_X;
     boolean isBallInside = false;
-
-    double ballx;
-
 
   @Override
   public void robotInit() {
@@ -60,15 +62,17 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
 
+    tankDrive.AutonomusDrive(); 
+
     driveTrain.arcadeDrive(0, 0.5);
     ballDetector.execute();
-    ballx = SmartDashboard.getNumber("Ball X", 0.0);
+    ballPosition_X = SmartDashboard.getNumber("Ball X", 0.0);
 
 
     if (!isBallInside){
 
-      if (ballx != 0.0){
-         driveTrain.arcadeDrive(0.5, turnController.calculate(ballx, 0.0));       
+      if (ballPosition_X != 0.0){
+         driveTrain.arcadeDrive(0.5, turnController.calculate(ballPosition_X, 0.0));       
       }
       else
       driveTrain.arcadeDrive(0.5, 0.0);;
@@ -83,8 +87,17 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
 
-    driveTrain.tankDrive(tankStick_L.getY(),tankStick_R.getY());
+    tankDrive.PilotDrive();
+    
+    ballIntake.OperateIntake();
 
+    if (container.GetGunnerSwitchPosition()>0.5) // Slider at the bottom of the Joystick
+      cannonTower.OperateCannon();               // Controlls whenever the second pilot controlls the
+    else                                         // Shooter tower or the climbing system.
+      robotClimber.OperateClimber();
+    
+    
+    
   }
 
   @Override
@@ -99,6 +112,8 @@ public class Robot extends TimedRobot {
   @Override
 
   public void testPeriodic() {}
+
+
 
 
   public void SetBallDetectorAlliance(){
