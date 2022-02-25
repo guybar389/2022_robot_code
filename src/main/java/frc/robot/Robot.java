@@ -64,7 +64,6 @@ public class Robot extends TimedRobot {
 
     tankDrive.AutonomusDrive(); 
 
-    driveTrain.arcadeDrive(0, 0.5);
     ballDetector.execute();
     ballPosition_X = SmartDashboard.getNumber("Ball X", 0.0);
 
@@ -96,7 +95,7 @@ public class Robot extends TimedRobot {
     else                                         // Shooter tower or the climbing system.
       robotClimber.OperateClimber();
     
-    
+     
     
   }
 

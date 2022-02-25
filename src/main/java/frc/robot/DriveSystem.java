@@ -21,7 +21,8 @@ public class DriveSystem {
     }
 
     public void AutonomusDrive() {
-        
+      driveTrain.arcadeDrive(0, 0.5);
+
     }
 
 
