@@ -7,23 +7,28 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.XboxController.Button;
 
 
-public class IntakeSystem {
+public class Intake_System {
 
-    private RobotContainer container;
+    private Data_Container container;
     private Button intakeActivate_Butt = container.activateIntk_Butt;
     private Button intakeState_Butt = container.intakeState_Butt;
     private TalonSRX intakeSRX = container.intakeA;
 
     
 
-    public IntakeSystem(RobotContainer container){
+    public Intake_System(Data_Container container){
         this.container = container;
     }
 
 
     public void OperateIntake(boolean isOnOverride){
-      DoOnce_CheckButton_SwitchIntakeState();
-      SpinIntake(GetActivateButton_isPressed());
+      if(isOnOverride){
+        DoOnce_CheckButton_SwitchIntakeState();
+        SpinIntake(GetActivateButton_isPressed());
+      }
+      else{
+        
+      }
     }
 
 

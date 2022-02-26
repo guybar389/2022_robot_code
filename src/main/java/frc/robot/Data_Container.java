@@ -21,7 +21,7 @@ import io.github.pseudoresonance.pixy2api.links.SPILink;
 
 
 /** Add your docs here. */
-public class RobotContainer {
+public class Data_Container {
 
     /////////////////// USER INPUT ////////////////////////////////
     
@@ -88,7 +88,7 @@ public class RobotContainer {
     public PIDController turnController = new PIDController(0.1, 0, 0);
 
 
-    public RobotContainer(){
+    public Data_Container(){
         rightTrack.setInverted(true);
         
     }

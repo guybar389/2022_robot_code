@@ -8,21 +8,27 @@ import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 
 
-public class CannonSystem {
+public class Cannon_System {
     
-    private RobotContainer container;
+    private Data_Container container;
     private TalonSRX towerSRX = container.towerSRX;
     private MotorControllerGroup cannonSRX = container.cannonSRX;
     private XboxController gunnerStick = container.gunnerStick;
     private Button fireCannon_Button = container.fireCannon_Butt;
     
-    public CannonSystem(RobotContainer container){
+    public Cannon_System(Data_Container container){
         this.container = container;
       }
     
     public void OperateCannon(boolean isOnOverride){
-      RotateTower(gunnerStick.getRightX());
-      FireCannon(GetfireCannon_isPressed());
+      if(isOnOverride){
+        RotateTower(gunnerStick.getRightX());
+        FireCannon(GetfireCannon_isPressed());
+      }
+      else{
+        
+      }
+      
     }
 
 
