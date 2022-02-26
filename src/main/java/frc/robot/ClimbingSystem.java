@@ -7,21 +7,19 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 public class ClimbingSystem {
     
     private RobotContainer container;
-
     Joystick driveStick_L = container.driverStickL;
     Joystick driveStick_R = container.driverStickR;
+
 
     public ClimbingSystem(RobotContainer Container){
       this.container = Container;
     }
 
+
     public void OperateClimber(boolean isOnOverride){
       ControlClimbMechanism_Left();
       ControlClimbMechanism_Right();
     }
-
-
-
 
 
     private void ControlClimbMechanism_Left(){
@@ -31,6 +29,7 @@ public class ClimbingSystem {
         StraightenLeftClimber();
     }
 
+
     private void ControlClimbMechanism_Right(){
       if (driveStick_R.getY() > 0.75)
         TwistRightClimber();
@@ -38,6 +37,7 @@ public class ClimbingSystem {
         StraightenRightClimber();
     }
 
+    
       //activate cylinders through those commands
     private void TwistLeftClimber(){
       container.climbSolenoid_Left.set(Value.kForward);

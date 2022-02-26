@@ -94,6 +94,7 @@ public class Robot extends TimedRobot {
     RobotCheckForManualOverride();
     tankDrive.PilotDrive(MANUAL_OVERRIDE);
     ballIntake.OperateIntake(MANUAL_OVERRIDE);
+    
     if (container.GetDriverSwitchPosition_L()>0.5)  // Slider at the bottom of the Driver Joystick
       cannonTower.OperateCannon(MANUAL_OVERRIDE);                  // Controlls whenever the second pilot controlls the
     else                                            // Shooter tower or the climbing system.

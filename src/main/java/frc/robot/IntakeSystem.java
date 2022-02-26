@@ -3,60 +3,82 @@ package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj.XboxController.Button;
+
 
 public class IntakeSystem {
 
     private RobotContainer container;
-    private JoystickButton intakeActivate_Butt = container.activateIntk_Butt;
-    private JoystickButton intakeState_Butt = container.intakeState_Butt;
+    private Button intakeActivate_Butt = container.activateIntk_Butt;
+    private Button intakeState_Butt = container.intakeState_Butt;
     private TalonSRX intakeSRX = container.intakeA;
-    private boolean intakeFlipflop = false; // Private State Flipflop container variable
+
+    
 
     public IntakeSystem(RobotContainer container){
         this.container = container;
     }
 
-    public void OperateIntake(boolean isOnOverride){ // NOT SURE IF WORKS, EVENT SYSTEM MUST BE TESTED
-      intakeState_Butt.whenPressed(SwitchIntakeState()); 
-      intakeActivate_Butt.whileHeld(SpinIntake(intakeActivate_Butt.getAsBoolean()));
+
+    public void OperateIntake(boolean isOnOverride){
+      DoOnce_CheckButton_SwitchIntakeState();
+      SpinIntake(GetActivateButton_isPressed());
     }
 
 
+    private boolean intakeStateButton_WasPressedOnce = false;
+    private void DoOnce_CheckButton_SwitchIntakeState(){
+      if (GetStateButton_isPressed() && !intakeStateButton_WasPressedOnce){
+        intakeStateButton_WasPressedOnce = true;
+        SwitchIntakeState();
+      }
+      else if (!GetStateButton_isPressed())
+      {
+        intakeStateButton_WasPressedOnce = false;
+      }
+    }
 
 
-
-    private Command SwitchIntakeState(){
-      if(!intakeFlipflop){
+    private boolean intakeState_Flipflop = false;
+    private void SwitchIntakeState(){
+      if(!intakeState_Flipflop){
         OpenIntake();
-        intakeFlipflop = true;
-        return null;
+        intakeState_Flipflop = true;
       }
       CloseIntake();
-      intakeFlipflop = false;
-      return null;
+      intakeState_Flipflop = false;
     }
 
-    private Command SpinIntake(boolean isSpinning){    // Set true to activate
-      if(isSpinning){
-        intakeSRX.set(TalonSRXControlMode.PercentOutput, 1.0);
-        return null;
-      }
-      intakeSRX.set(TalonSRXControlMode.PercentOutput, 0.0);
-      return null;
+
+    private void SpinIntake(boolean isSpinning){
+      if(isSpinning)
+        intakeSRX.set(TalonSRXControlMode.PercentOutput, container.intakeRotationSpeed);
+      else
+        intakeSRX.set(TalonSRXControlMode.PercentOutput, 0.0);
     }
+
 
     private void CloseIntake(){                              
       container.intakeSolenoid_Left.set(Value.kForward);     
       container.intakeSolenoid_Right.set(Value.kForward);
-      }
+    }
+
+
     private void OpenIntake(){
       container.intakeSolenoid_Left.set(Value.kReverse);
       container.intakeSolenoid_Right.set(Value.kReverse);
-      }
+    }
+
+
+    private boolean GetStateButton_isPressed(){
+      return intakeState_Butt.value == 1;
+    }
+
+
+    private boolean GetActivateButton_isPressed(){
+      return intakeActivate_Butt.value == 1;
+    }
 
     
 }

@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PneumaticsControlModule;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -28,10 +29,12 @@ public class RobotContainer {
     Joystick driverStickR = new Joystick(1);
     JoystickButton initiateOverrideDriver_Butt = new JoystickButton(driverStickL, 10);
     JoystickButton reverseDrive_Butt = new JoystickButton(driverStickL, 0);
+
     XboxController gunnerStick = new XboxController(2);
-    JoystickButton activateIntk_Butt = new JoystickButton(gunnerStick, 0);
-    JoystickButton intakeState_Butt = new JoystickButton(gunnerStick, 1);
-    JoystickButton fireCannon_Butt = new JoystickButton(gunnerStick, 2);
+    Button initiateOverrideGunner_Butt = Button.kStart;
+    Button activateIntk_Butt = Button.kB;
+    Button intakeState_Butt = Button.kBack;
+    Button fireCannon_Butt = Button.kA;
 
     //////////////////// TANK DRIVE ///////////////////////////////
 
@@ -52,9 +55,8 @@ public class RobotContainer {
     WPI_TalonSRX intakeA = new WPI_TalonSRX(5);
     DoubleSolenoid intakeSolenoid_Left = pcm.makeDoubleSolenoid(0, 1);
     DoubleSolenoid intakeSolenoid_Right = pcm.makeDoubleSolenoid(2, 3);
-
+    double intakeRotationSpeed = 1.0;
     
-
 
     //////////////////// BALLGRIP System ///////////////////////////////
 
@@ -75,9 +77,8 @@ public class RobotContainer {
     //*CONTAINS BOTH DECIMATE GEARBOX AND 775 MOTOR, PAY ATTENTION IF IT NEEDED TO BE INVERTED*
     MotorControllerGroup cannonSRX = new MotorControllerGroup
     (new WPI_TalonSRX(9), new WPI_TalonSRX(10), new WPI_TalonSRX(11)); 
-
     WPI_TalonSRX towerSRX = new WPI_TalonSRX(11);
-    
+    double cannonFireSpeed = 1.0;
 
     //////////////////// SENSORS INIT ///////////////////////////////
 
@@ -91,13 +92,15 @@ public class RobotContainer {
         
     }
     
-    public double GetGunnerSwitchPosition(){         //needs to be changed regarding to xbox controller for gunner
-        return gunnerStick.getThrottle();
+
+    public double GetDriverSwitchPosition_L(){         //needs to be changed regarding to xbox controller for gunner
+        return driverStickL.getThrottle();
     }
 
+    
     public boolean CheckForManualOverrideInput(){
         return initiateOverrideDriver_Butt.getAsBoolean() && 
-        initiateOverrideGunner_Butt.getAsBoolean();
+        initiateOverrideGunner_Butt.value == 1;
     }
 }
 

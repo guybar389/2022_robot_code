@@ -3,10 +3,9 @@ package frc.robot;
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
-import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 
 public class CannonSystem {
@@ -14,16 +13,16 @@ public class CannonSystem {
     private RobotContainer container;
     private TalonSRX towerSRX = container.towerSRX;
     private MotorControllerGroup cannonSRX = container.cannonSRX;
-    private Joystick gunnerStick = container.gunnerStick;
-    private JoystickButton fireCannon_Button = container.fireCannon_Butt;
+    private XboxController gunnerStick = container.gunnerStick;
+    private Button fireCannon_Button = container.fireCannon_Butt;
     
     public CannonSystem(RobotContainer container){
         this.container = container;
       }
     
     public void OperateCannon(boolean isOnOverride){
-      RotateTower(gunnerStick.getX());
-      fireCannon_Button.whenHeld(FireCannon(fireCannon_Button.getAsBoolean()));
+      RotateTower(gunnerStick.getRightX());
+      FireCannon(GetfireCannon_isPressed());
     }
 
 
@@ -34,13 +33,16 @@ public class CannonSystem {
       towerSRX.set(TalonSRXControlMode.PercentOutput, rotationSpeed);
     }
     
-    private Command FireCannon(boolean isFiring){ // Set true to fire the shooter cannon
-      if(isFiring){
-        cannonSRX.set(1.0);
-        return null;
-      }
-      cannonSRX.set(0.0);
-      return null;
+
+    private void FireCannon(boolean isFiring){
+      if(isFiring)
+        cannonSRX.set(container.cannonFireSpeed);
+      else
+        cannonSRX.set(0.0);
     }
 
+
+    private boolean GetfireCannon_isPressed(){
+      return fireCannon_Button.value == 1;
+    }
 }
