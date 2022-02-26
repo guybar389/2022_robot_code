@@ -28,13 +28,7 @@ public class RobotContainer {
     Joystick driverStickR = new Joystick(1);
     JoystickButton initiateOverrideDriver_Butt = new JoystickButton(driverStickL, 10);
     JoystickButton reverseDrive_Butt = new JoystickButton(driverStickL, 0);
-<<<<<<< HEAD
     XboxController gunnerStick = new XboxController(2);
-=======
-
-    Joystick gunnerStick = new Joystick(2);
-    JoystickButton initiateOverrideGunner_Butt = new JoystickButton(gunnerStick, 10);
->>>>>>> 9ef22aace38000d9b745fb1dcbb4fa06eef506c7
     JoystickButton activateIntk_Butt = new JoystickButton(gunnerStick, 0);
     JoystickButton intakeState_Butt = new JoystickButton(gunnerStick, 1);
     JoystickButton fireCannon_Butt = new JoystickButton(gunnerStick, 2);
@@ -97,9 +91,9 @@ public class RobotContainer {
         
     }
     
-    // public double GetGunnerSwitchPosition(){
-    //     return gunnerStick.getThrottle();
-    // }
+    public double GetGunnerSwitchPosition(){         //needs to be changed regarding to xbox controller for gunner
+        return gunnerStick.getThrottle();
+    }
 
     public boolean CheckForManualOverrideInput(){
         return initiateOverrideDriver_Butt.getAsBoolean() && 
