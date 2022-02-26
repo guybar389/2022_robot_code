@@ -32,7 +32,7 @@ public class Robot extends TimedRobot {
     PIDController turnController = container.turnController;
     DigitalInput ballSwitch = container.ballSwitch;
 
-    boolean MANUAL_OVERRIDE = false; // Disables all automatic assistance from the robot
+    boolean MANUAL_OVERRIDE = true; // Disables all automatic assistance from the robot
                                      // And transfers full system control to the pilots.
                                      // Use in case of critical sensor's failure. 
                                      // Once true CANNOT be switched off untill the end of round.
