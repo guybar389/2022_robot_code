@@ -6,17 +6,17 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 public class DriveSystem {
 
-    RobotContainer container;
-    DifferentialDrive driveTrain = container.driveTrain;
-    JoystickButton reverseDrive_Butt = container.reverseDrive_Butt;
-    Joystick tankStick_L = container.driverStickL;
-    Joystick tankStick_R = container.driverStickR;
+    private RobotContainer container;
+    private DifferentialDrive driveTrain = container.driveTrain;
+    private JoystickButton reverseDrive_Butt = container.reverseDrive_Butt;
+    private Joystick tankStick_L = container.driverStickL;
+    private Joystick tankStick_R = container.driverStickR;
 
     public DriveSystem(RobotContainer Container) {
         this.container = Container;
     }
 
-    public void PilotDrive() {
+    public void PilotDrive(boolean isOnOverride) {
         driveTrain.tankDrive(SetTankSpeed(tankStick_L),SetTankSpeed(tankStick_R));
     }
 

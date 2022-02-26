@@ -16,16 +16,20 @@ public class IntakeSystem {
     private TalonSRX intakeSRX = container.intakeA;
     private boolean intakeFlipflop = false; // Private State Flipflop container variable
 
-    IntakeSystem(RobotContainer container){
+    public IntakeSystem(RobotContainer container){
         this.container = container;
-      }
+    }
 
-    public void OperateIntake(){ // NOT SURE IF WORKS, EVENT SYSTEM MUST BE TESTED
+    public void OperateIntake(boolean isOnOverride){ // NOT SURE IF WORKS, EVENT SYSTEM MUST BE TESTED
       intakeState_Butt.whenPressed(SwitchIntakeState()); 
       intakeActivate_Butt.whileHeld(SpinIntake(intakeActivate_Butt.getAsBoolean()));
     }
 
-    public Command SwitchIntakeState(){
+
+
+
+
+    private Command SwitchIntakeState(){
       if(!intakeFlipflop){
         OpenIntake();
         intakeFlipflop = true;
@@ -36,7 +40,7 @@ public class IntakeSystem {
       return null;
     }
 
-    public Command SpinIntake(boolean isSpinning){    // Set true to activate
+    private Command SpinIntake(boolean isSpinning){    // Set true to activate
       if(isSpinning){
         intakeSRX.set(TalonSRXControlMode.PercentOutput, 1.0);
         return null;

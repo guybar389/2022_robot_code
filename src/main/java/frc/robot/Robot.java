@@ -31,12 +31,18 @@ public class Robot extends TimedRobot {
     DifferentialDrive driveTrain = container.driveTrain;
     PIDController turnController = container.turnController;
     DigitalInput ballSwitch = container.ballSwitch;
-    
+
+    boolean MANUAL_OVERRIDE = false; // Disables all automatic assistance from the robot
+                                     // And transfers full system control to the pilots.
+                                     // Use in case of critical sensor's failure. 
+                                     // Once true CANNOT be switched off untill the end of round.
+
     BallDetectorAuto ballDetector = new BallDetectorAuto(pixyCamera);
     DriveSystem tankDrive = new DriveSystem(container);
     ClimbingSystem robotClimber = new ClimbingSystem(container);
     CannonSystem cannonTower = new CannonSystem(container);
     IntakeSystem ballIntake = new IntakeSystem(container);
+    
     
     
     double ballPosition_X;
@@ -85,18 +91,13 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-
-    tankDrive.PilotDrive();
-    
-    ballIntake.OperateIntake();
-
-    if (container.GetGunnerSwitchPosition()>0.5) // Slider at the bottom of the Joystick
-      cannonTower.OperateCannon();               // Controlls whenever the second pilot controlls the
-    else                                         // Shooter tower or the climbing system.
-      robotClimber.OperateClimber();
-    
-     
-    
+    RobotCheckForManualOverride();
+    tankDrive.PilotDrive(MANUAL_OVERRIDE);
+    ballIntake.OperateIntake(MANUAL_OVERRIDE);
+    if (container.GetDriverSwitchPosition_L()>0.5)  // Slider at the bottom of the Driver Joystick
+      cannonTower.OperateCannon(MANUAL_OVERRIDE);                  // Controlls whenever the second pilot controlls the
+    else                                            // Shooter tower or the climbing system.
+      robotClimber.OperateClimber(MANUAL_OVERRIDE);
   }
 
   @Override
@@ -113,6 +114,10 @@ public class Robot extends TimedRobot {
   public void testPeriodic() {}
 
 
+  public void RobotCheckForManualOverride(){
+    if (container.CheckForManualOverrideInput())
+      MANUAL_OVERRIDE = true;
+  }
 
 
   public void SetBallDetectorAlliance(){
