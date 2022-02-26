@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PneumaticsControlModule;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -26,7 +27,7 @@ public class RobotContainer {
     Joystick driverStickL = new Joystick(0);
     Joystick driverStickR = new Joystick(1);
     JoystickButton reverseDrive_Butt = new JoystickButton(driverStickL, 0);
-    Joystick gunnerStick = new Joystick(2);
+    XboxController gunnerStick = new XboxController(2);
     JoystickButton activateIntk_Butt = new JoystickButton(gunnerStick, 0);
     JoystickButton intakeState_Butt = new JoystickButton(gunnerStick, 1);
     JoystickButton fireCannon_Butt = new JoystickButton(gunnerStick, 2);
@@ -89,9 +90,9 @@ public class RobotContainer {
         
     }
     
-    public double GetGunnerSwitchPosition(){
-        return gunnerStick.getThrottle();
-    }
+    // public double GetGunnerSwitchPosition(){
+    //     return gunnerStick.getThrottle();
+    // }
 
     
 }
