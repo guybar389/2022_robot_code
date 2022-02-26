@@ -7,12 +7,15 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 public class Climbing_System {
     
     private Data_Container container;
-    Joystick driveStick_L = container.driverStickL;
-    Joystick driveStick_R = container.driverStickR;
+    Joystick driveStick_L;
+    Joystick driveStick_R;
 
 
     public Climbing_System(Data_Container Container){
       this.container = Container;
+
+      driveStick_L = container.driverStickL;
+      driveStick_R = container.driverStickR;
     }
 
 

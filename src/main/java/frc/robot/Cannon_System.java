@@ -11,13 +11,18 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 public class Cannon_System {
     
     private Data_Container container;
-    private TalonSRX towerSRX = container.towerSRX;
-    private MotorControllerGroup cannonSRX = container.cannonSRX;
-    private XboxController gunnerStick = container.gunnerStick;
-    private Button fireCannon_Button = container.fireCannon_Butt;
+    private TalonSRX towerSRX;
+    private MotorControllerGroup cannonSRX;
+    private XboxController gunnerStick;
+    private Button fireCannon_Button;
     
     public Cannon_System(Data_Container container){
         this.container = container;
+
+        towerSRX = container.towerSRX;
+        cannonSRX = container.cannonSRX;
+        gunnerStick = container.gunnerStick;
+        fireCannon_Button = container.fireCannon_Butt;
       }
     
     public void OperateCannon(boolean isOnOverride){

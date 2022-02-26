@@ -26,23 +26,23 @@ public class Robot extends TimedRobot {
    * initialization code.
    */
   
-    Data_Container container = new Data_Container();
-    Pixy2 pixyCamera = container.pixyCamera;
-    DifferentialDrive driveTrain = container.driveTrain;
-    PIDController turnController = container.turnController;
-    DigitalInput ballSwitch = container.ballSwitch;
+    Data_Container container;
+    Pixy2 pixyCamera;
+    DifferentialDrive driveTrain;
+    PIDController turnController;
+    DigitalInput ballSwitch;
 
     boolean MANUAL_OVERRIDE = true; // Disables all automatic assistance from the robot
                                      // And transfers full system control to the pilots.
                                      // Use in case of critical sensor's failure. 
                                      // Once true CANNOT be switched off untill the end of round.
 
-    BallDetectorAuto ballDetector = new BallDetectorAuto(pixyCamera);
-    Drive_System tankDrive = new Drive_System(container);
-    Climbing_System robotClimber = new Climbing_System(container);
-    Cannon_System cannonTower = new Cannon_System(container);
-    Intake_System ballIntake = new Intake_System(container);
-    Dashboard SmartDash = new Dashboard(container);
+    BallDetectorAuto ballDetector;
+    Drive_System tankDrive;
+    Climbing_System robotClimber;
+    Cannon_System cannonTower;
+    Intake_System ballIntake;
+    Dashboard SmartDash;
     
     
     double ballPosition_X;
@@ -50,7 +50,22 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
+    container = new Data_Container();
+
+    pixyCamera = container.pixyCamera;
+    driveTrain = container.driveTrain;
+    turnController = container.turnController;
+    ballSwitch = container.ballSwitch;
+
+    ballDetector = new BallDetectorAuto(pixyCamera);
+    tankDrive = new Drive_System(container);
+    robotClimber = new Climbing_System(container);
+    cannonTower = new Cannon_System(container);
+    ballIntake = new Intake_System(container);
+    SmartDash = new Dashboard(container);
+
     SetBallDetectorAlliance();
+
   }
 
   

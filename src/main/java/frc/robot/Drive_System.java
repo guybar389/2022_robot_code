@@ -7,13 +7,17 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 public class Drive_System {
 
     private Data_Container container;
-    private DifferentialDrive driveTrain = container.driveTrain;
-    private JoystickButton reverseDrive_Butt = container.reverseDrive_Butt;
-    private Joystick tankStick_L = container.driverStickL;
-    private Joystick tankStick_R = container.driverStickR;
+    private DifferentialDrive driveTrain;
+    private JoystickButton reverseDrive_Butt;
+    private Joystick tankStick_L;
+    private Joystick tankStick_R;
 
     public Drive_System(Data_Container container) {
         this.container = container;
+        driveTrain = this.container.driveTrain;
+        reverseDrive_Butt = this.container.reverseDrive_Butt;
+        tankStick_L = this.container.driverStickL;
+        tankStick_R = this.container.driverStickR;
     }
 
 

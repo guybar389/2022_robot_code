@@ -10,14 +10,18 @@ import edu.wpi.first.wpilibj.XboxController.Button;
 public class Intake_System {
 
     private Data_Container container;
-    private Button intakeActivate_Butt = container.activateIntk_Butt;
-    private Button intakeState_Butt = container.intakeState_Butt;
-    private TalonSRX intakeSRX = container.intakeA;
+    private Button intakeActivate_Butt;
+    private Button intakeState_Butt;
+    private TalonSRX intakeSRX;
 
     
 
     public Intake_System(Data_Container container){
         this.container = container;
+        intakeActivate_Butt = container.activateIntk_Butt;
+        intakeState_Butt = container.intakeState_Butt;
+        intakeSRX = container.intakeA;
+
     }
 
 
