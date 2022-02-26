@@ -12,11 +12,11 @@ public class DriveSystem {
     private Joystick tankStick_L = container.driverStickL;
     private Joystick tankStick_R = container.driverStickR;
 
-    public DriveSystem(RobotContainer Container) {
-        this.container = Container;
+    public DriveSystem(RobotContainer container) {
+        this.container = container;
     }
 
-    
+
     public void PilotDrive(boolean isOnOverride) {
         driveTrain.tankDrive(SetTankSpeed(tankStick_L),SetTankSpeed(tankStick_R));
     }

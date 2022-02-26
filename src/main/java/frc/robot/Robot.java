@@ -42,7 +42,7 @@ public class Robot extends TimedRobot {
     ClimbingSystem robotClimber = new ClimbingSystem(container);
     CannonSystem cannonTower = new CannonSystem(container);
     IntakeSystem ballIntake = new IntakeSystem(container);
-    
+    Dashboard SmartDash = new Dashboard(container);
     
     
     double ballPosition_X;
@@ -94,9 +94,9 @@ public class Robot extends TimedRobot {
     RobotCheckForManualOverride();
     tankDrive.PilotDrive(MANUAL_OVERRIDE);
     ballIntake.OperateIntake(MANUAL_OVERRIDE);
-    
+
     if (container.GetDriverSwitchPosition_L()>0.5)  // Slider at the bottom of the Driver Joystick
-      cannonTower.OperateCannon(MANUAL_OVERRIDE);                  // Controlls whenever the second pilot controlls the
+      cannonTower.OperateCannon(MANUAL_OVERRIDE);   // Controlls whenever the second pilot controlls the
     else                                            // Shooter tower or the climbing system.
       robotClimber.OperateClimber(MANUAL_OVERRIDE);
   }
@@ -116,6 +116,7 @@ public class Robot extends TimedRobot {
 
 
   public void RobotCheckForManualOverride(){
+    SmartDash.DisplayOverride(MANUAL_OVERRIDE);
     if (container.CheckForManualOverrideInput())
       MANUAL_OVERRIDE = true;
   }
