@@ -25,66 +25,67 @@ public class RobotContainer {
 
     /////////////////// USER INPUT ////////////////////////////////
     
-    Joystick driverStickL = new Joystick(0);
-    Joystick driverStickR = new Joystick(1);
-    JoystickButton initiateOverrideDriver_Butt = new JoystickButton(driverStickL, 10);
-    JoystickButton reverseDrive_Butt = new JoystickButton(driverStickL, 0);
+    public Joystick driverStickL = new Joystick(0);
+    public Joystick driverStickR = new Joystick(1);
+    public JoystickButton initiateOverrideDriver_Butt = new JoystickButton(driverStickL, 10);
+    public JoystickButton reverseDrive_Butt = new JoystickButton(driverStickL, 0);
 
-    XboxController gunnerStick = new XboxController(2);
-    Button initiateOverrideGunner_Butt = Button.kStart;
-    Button activateIntk_Butt = Button.kB;
-    Button intakeState_Butt = Button.kBack;
-    Button fireCannon_Butt = Button.kA;
+    public XboxController gunnerStick = new XboxController(2);
+    public Button initiateOverrideGunner_Butt = Button.kStart;
+    public Button activateIntk_Butt = Button.kB;
+    public Button intakeState_Butt = Button.kBack;
+    public Button fireCannon_Butt = Button.kA;
 
     //////////////////// TANK DRIVE ///////////////////////////////
 
-    WPI_TalonSRX frontL = new WPI_TalonSRX(1);  //make sure port 1&2 are for left side
-    WPI_TalonSRX rearL = new WPI_TalonSRX(2);
-    WPI_TalonSRX frontR = new WPI_TalonSRX(3);  //make sure port 3&4 are for right side
-    WPI_TalonSRX rearR = new WPI_TalonSRX(4);
-    MotorControllerGroup rightTrack = new MotorControllerGroup(frontL,rearL);
-    MotorControllerGroup leftTrack = new MotorControllerGroup(frontR, rearR);
-    DifferentialDrive driveTrain = new DifferentialDrive(leftTrack, rightTrack);
+    private WPI_TalonSRX frontL = new WPI_TalonSRX(1);  //make sure port 1&2 are for left side
+    private WPI_TalonSRX rearL = new WPI_TalonSRX(2);
+    private WPI_TalonSRX frontR = new WPI_TalonSRX(3);  //make sure port 3&4 are for right side
+    private WPI_TalonSRX rearR = new WPI_TalonSRX(4);
+    private MotorControllerGroup rightTrack = new MotorControllerGroup(frontL,rearL);
+    private MotorControllerGroup leftTrack = new MotorControllerGroup(frontR, rearR);
+    
+    public DifferentialDrive driveTrain = new DifferentialDrive(leftTrack, rightTrack);
 
     //////////////////// PNEUMATICS System ///////////////////////////////
 
-    PneumaticsControlModule pcm = new PneumaticsControlModule();
+    public PneumaticsControlModule pcm = new PneumaticsControlModule();
     
     //////////////////// INTAKE System ///////////////////////////////
 
-    WPI_TalonSRX intakeA = new WPI_TalonSRX(5);
-    DoubleSolenoid intakeSolenoid_Left = pcm.makeDoubleSolenoid(0, 1);
-    DoubleSolenoid intakeSolenoid_Right = pcm.makeDoubleSolenoid(2, 3);
-    double intakeRotationSpeed = 1.0;
+    public WPI_TalonSRX intakeA = new WPI_TalonSRX(5);
+    public DoubleSolenoid intakeSolenoid_Left = pcm.makeDoubleSolenoid(0, 1);
+    public DoubleSolenoid intakeSolenoid_Right = pcm.makeDoubleSolenoid(2, 3);
+    public double intakeRotationSpeed = 1.0;
     
 
     //////////////////// BALLGRIP System ///////////////////////////////
 
-    WPI_TalonSRX Gripper = new WPI_TalonSRX(6);
+    public WPI_TalonSRX Gripper = new WPI_TalonSRX(6);
 
 
     //////////////////// CLIMB System ///////////////////////////////
 
-    WPI_TalonSRX climbSRX_Left = new WPI_TalonSRX(7);   
-    WPI_TalonSRX climbSRX_Right = new WPI_TalonSRX(8);
+    public WPI_TalonSRX climbSRX_Left = new WPI_TalonSRX(7);   
+    public WPI_TalonSRX climbSRX_Right = new WPI_TalonSRX(8);
 
-    DoubleSolenoid climbSolenoid_Left = pcm.makeDoubleSolenoid(4, 5);
-    DoubleSolenoid climbSolenoid_Right = pcm.makeDoubleSolenoid(6, 7);
+    public DoubleSolenoid climbSolenoid_Left = pcm.makeDoubleSolenoid(4, 5);
+    public DoubleSolenoid climbSolenoid_Right = pcm.makeDoubleSolenoid(6, 7);
 
     //////////////////// CANNON System ///////////////////////////////
 
     //no need to declare these three shooter motors seperately 
     //*CONTAINS BOTH DECIMATE GEARBOX AND 775 MOTOR, PAY ATTENTION IF IT NEEDED TO BE INVERTED*
-    MotorControllerGroup cannonSRX = new MotorControllerGroup
+    public MotorControllerGroup cannonSRX = new MotorControllerGroup
     (new WPI_TalonSRX(9), new WPI_TalonSRX(10), new WPI_TalonSRX(11)); 
-    WPI_TalonSRX towerSRX = new WPI_TalonSRX(11);
-    double cannonFireSpeed = 1.0;
+    public WPI_TalonSRX towerSRX = new WPI_TalonSRX(11);
+    public double cannonFireSpeed = 1.0;
 
     //////////////////// SENSORS INIT ///////////////////////////////
 
     public DigitalInput ballSwitch = new DigitalInput(0);
     public Pixy2 pixyCamera = Pixy2.createInstance(new SPILink());
-    PIDController turnController = new PIDController(0.1, 0, 0);
+    public PIDController turnController = new PIDController(0.1, 0, 0);
 
 
     public RobotContainer(){
