@@ -26,17 +26,23 @@ public class Robot extends TimedRobot {
    * initialization code.
    */
   
-    RobotContainer container = new RobotContainer();
-    Pixy2 pixyCamera = container.pixyCamera;
-    DifferentialDrive driveTrain = container.driveTrain;
-    PIDController turnController = container.turnController;
-    DigitalInput ballSwitch = container.ballSwitch;
-    
-    BallDetectorAuto ballDetector = new BallDetectorAuto(pixyCamera);
-    DriveSystem tankDrive = new DriveSystem(container);
-    ClimbingSystem robotClimber = new ClimbingSystem(container);
-    CannonSystem cannonTower = new CannonSystem(container);
-    IntakeSystem ballIntake = new IntakeSystem(container);
+    Data_Container container;
+    Pixy2 pixyCamera;
+    DifferentialDrive driveTrain;
+    PIDController turnController;
+    DigitalInput ballSwitch;
+
+    boolean MANUAL_OVERRIDE = true; // Disables all automatic assistance from the robot
+                                     // And transfers full system control to the pilots.
+                                     // Use in case of critical sensor's failure. 
+                                     // Once true CANNOT be switched off untill the end of round.
+
+    BallDetectorAuto ballDetector;
+    Drive_System tankDrive;
+    Climbing_System robotClimber;
+    Cannon_System cannonTower;
+    Intake_System ballIntake;
+    Dashboard SmartDash;
     
     
     double ballPosition_X;
@@ -44,7 +50,22 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
+    container = new Data_Container();
+
+    pixyCamera = container.pixyCamera;
+    driveTrain = container.driveTrain;
+    turnController = container.turnController;
+    ballSwitch = container.ballSwitch;
+
+    ballDetector = new BallDetectorAuto(pixyCamera);
+    tankDrive = new Drive_System(container);
+    robotClimber = new Climbing_System(container);
+    cannonTower = new Cannon_System(container);
+    ballIntake = new Intake_System(container);
+    SmartDash = new Dashboard(container);
+
     SetBallDetectorAlliance();
+
   }
 
   
@@ -64,7 +85,6 @@ public class Robot extends TimedRobot {
 
     tankDrive.AutonomusDrive(); 
 
-    driveTrain.arcadeDrive(0, 0.5);
     ballDetector.execute();
     ballPosition_X = SmartDashboard.getNumber("Ball X", 0.0);
 
@@ -86,18 +106,14 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
+    RobotCheckForManualOverride();
+    tankDrive.PilotDrive(MANUAL_OVERRIDE);
+    ballIntake.OperateIntake(MANUAL_OVERRIDE);
 
-    tankDrive.PilotDrive();
-    
-    ballIntake.OperateIntake();
-
-    if (container.GetGunnerSwitchPosition()>0.5) // Slider at the bottom of the Joystick
-      cannonTower.OperateCannon();               // Controlls whenever the second pilot controlls the
-    else                                         // Shooter tower or the climbing system.
-      robotClimber.OperateClimber();
-    
-    
-    
+    if (container.GetDriverSwitchPosition_L()>0.5)  // Slider at the bottom of the Driver Joystick
+      cannonTower.OperateCannon(MANUAL_OVERRIDE);   // Controlls whenever the second pilot controlls the
+    else                                            // Shooter tower or the climbing system.
+      robotClimber.OperateClimber(MANUAL_OVERRIDE);
   }
 
   @Override
@@ -114,6 +130,11 @@ public class Robot extends TimedRobot {
   public void testPeriodic() {}
 
 
+  public void RobotCheckForManualOverride(){
+    SmartDash.DisplayOverride(MANUAL_OVERRIDE);
+    if (container.CheckForManualOverrideInput())
+      MANUAL_OVERRIDE = true;
+  }
 
 
   public void SetBallDetectorAlliance(){
