@@ -4,12 +4,9 @@
 
 package frc.robot;
 
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import io.github.pseudoresonance.pixy2api.Pixy2;
 
@@ -27,35 +24,27 @@ public class Robot extends TimedRobot {
    */
   
     Data_Container container;
-    Pixy2 pixyCamera;
-    DifferentialDrive driveTrain;
-    PIDController turnController;
-    DigitalInput ballSwitch;
-
     boolean MANUAL_OVERRIDE = true; // Disables all automatic assistance from the robot
                                      // And transfers full system control to the pilots.
                                      // Use in case of critical sensor's failure. 
                                      // Once true CANNOT be switched off untill the end of round.
-
     BallDetectorAuto ballDetector;
     Drive_System tankDrive;
     Climbing_System robotClimber;
     Cannon_System cannonTower;
     Intake_System ballIntake;
     Dashboard SmartDash;
-    
+    Pixy2 pixyCamera;
     
     double ballPosition_X;
-    boolean isBallInside = false;
+
 
   @Override
   public void robotInit() {
     container = new Data_Container();
 
     pixyCamera = container.pixyCamera;
-    driveTrain = container.driveTrain;
-    turnController = container.turnController;
-    ballSwitch = container.ballSwitch;
+    
 
     ballDetector = new BallDetectorAuto(pixyCamera);
     tankDrive = new Drive_System(container);
@@ -82,22 +71,19 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
 
-    tankDrive.AutonomusDrive(); 
-
     ballDetector.execute();
+    
+    tankDrive.Autonomus_DriveStraight();
+
     ballPosition_X = SmartDashboard.getNumber("Ball X", 0.0);
-
-
-    if (!isBallInside){
-
+    if (!ballIntake.CheckIfHasBall()){
       if (ballPosition_X != 0.0){
-         driveTrain.arcadeDrive(0.5, turnController.calculate(ballPosition_X, 0.0));       
+        tankDrive.Autonomous_DriveToLocation(ballPosition_X);
       }
       else
-      driveTrain.arcadeDrive(0.5, 0.0);;
-    }
-    else if(ballSwitch.get())
-      isBallInside = true;
+      tankDrive.Autonomus_DriveStraight();
+     }
+
   }
 
   @Override
