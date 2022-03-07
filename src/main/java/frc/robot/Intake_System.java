@@ -3,6 +3,8 @@ package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.XboxController.Button;
 
@@ -13,7 +15,7 @@ public class Intake_System {
     private Button intakeActivate_Butt;
     private Button intakeState_Butt;
     private TalonSRX intakeSRX;
-
+    private DigitalInput ballCheckSwitch;
     
 
     public Intake_System(Data_Container container){
@@ -21,10 +23,11 @@ public class Intake_System {
         intakeActivate_Butt = container.activateIntk_Butt;
         intakeState_Butt = container.intakeState_Butt;
         intakeSRX = container.intakeA;
+        ballCheckSwitch = container.ballSwitch;
 
     }
 
-
+    
     public void OperateIntake(boolean isOnOverride){
       if(isOnOverride){
         DoOnce_CheckButton_SwitchIntakeState();
@@ -49,6 +52,12 @@ public class Intake_System {
     }
 
 
+    public boolean CheckIfHasBall(){
+      return ballCheckSwitch.get();
+    }
+
+
+
     private boolean intakeState_Flipflop = false;
     private void SwitchIntakeState(){
       if(!intakeState_Flipflop){
@@ -59,6 +68,8 @@ public class Intake_System {
       intakeState_Flipflop = false;
     }
 
+
+    
 
     private void SpinIntake(boolean isSpinning){
       if(isSpinning)
@@ -83,7 +94,6 @@ public class Intake_System {
     private boolean GetStateButton_isPressed(){
       return intakeState_Butt.value == 1;
     }
-
 
     private boolean GetActivateButton_isPressed(){
       return intakeActivate_Butt.value == 1;

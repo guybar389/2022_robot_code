@@ -44,7 +44,8 @@ public class Data_Container {
     private WPI_TalonSRX rearR = new WPI_TalonSRX(4);
     private MotorControllerGroup rightTrack = new MotorControllerGroup(frontL,rearL);
     private MotorControllerGroup leftTrack = new MotorControllerGroup(frontR, rearR);
-    
+
+    public PIDController turnController = new PIDController(0.1, 0, 0);
     public DifferentialDrive driveTrain = new DifferentialDrive(leftTrack, rightTrack);
 
     //////////////////// PNEUMATICS System ///////////////////////////////
@@ -57,6 +58,8 @@ public class Data_Container {
     public DoubleSolenoid intakeSolenoid_Left = pcm.makeDoubleSolenoid(0, 1);
     public DoubleSolenoid intakeSolenoid_Right = pcm.makeDoubleSolenoid(2, 3);
     public double intakeRotationSpeed = 1.0;
+    public DigitalInput ballSwitch = new DigitalInput(0);
+
     
 
     //////////////////// BALLGRIP System ///////////////////////////////
@@ -81,11 +84,9 @@ public class Data_Container {
     public WPI_TalonSRX towerSRX = new WPI_TalonSRX(11);
     public double cannonFireSpeed = 1.0;
 
-    //////////////////// SENSORS INIT ///////////////////////////////
+    //////////////////// IMANGE RECOGNITION System ///////////////////////////////
 
-    public DigitalInput ballSwitch = new DigitalInput(0);
     public Pixy2 pixyCamera = Pixy2.createInstance(new SPILink());
-    public PIDController turnController = new PIDController(0.1, 0, 0);
 
 
     public Data_Container(){
